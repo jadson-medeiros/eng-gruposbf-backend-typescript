@@ -1,6 +1,7 @@
 import { env } from '@/env';
 import { symbols } from '@/helpers/symbols';
 import axios, { AxiosRequestConfig} from 'axios';
+import { ExchangeRateNotFoundError } from './errors/exchange-rate-not-found';
 
 interface ExchangeRate {
   symbol: string,
@@ -31,7 +32,7 @@ export async function convertCurrencyUserCase(amount: number): Promise<ExchangeR
         const exchangeRates = response.data.rates;
 
         if (!exchangeRates) {
-            throw new Error('Exchange rate not found.');
+            throw new ExchangeRateNotFoundError();
         }
 
         const result: ExchangeRate[] = [];
@@ -40,7 +41,6 @@ export async function convertCurrencyUserCase(amount: number): Promise<ExchangeR
             result.push({symbol: currency, price: Number((exchangeRates[currency] * amount).toFixed(2))});
         }
 
-        console.log(result);
         return result;
     }  catch (err){
         throw new Error('Issue with the requested exchange rate.');
