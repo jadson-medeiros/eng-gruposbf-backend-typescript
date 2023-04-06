@@ -6,13 +6,12 @@ import { ExchangeRateNotFoundError } from '@/use-cases/errors/exchange-rate-not-
 export async function convertCurrency(request: FastifyRequest, reply: FastifyReply) {
 
     const currencyBodySchema = z.object({
-        price: z.number(),
+        price: z.string(),
     });
 
-    const { price } = currencyBodySchema.parse(request.body);
-
     try {
-        const result = await convertCurrencyUserCase(price);
+        const { price } = currencyBodySchema.parse(request.params);
+        const result = await convertCurrencyUserCase(Number.parseFloat(price));
 
         return reply.status(200).send(result);
     } catch (err) {

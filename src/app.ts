@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
 import { appRoutes } from './http/routes';
 import fastify from 'fastify';
-import { env } from './env';
+import { env } from './config/env';
 
 export const app = fastify();
 
