@@ -1,6 +1,7 @@
 import { convertCurrencyUserCase } from '@/use-cases/convert-currency';
 import { z } from 'zod';
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { ExchangeRateNotFoundError } from '@/use-cases/errors/exchange-rate-not-found';
 
 export async function convertCurrency(request: FastifyRequest, reply: FastifyReply) {
 
@@ -15,7 +16,10 @@ export async function convertCurrency(request: FastifyRequest, reply: FastifyRep
 
         return reply.status(200).send(result);
     } catch (err) {
-        return reply.status(400).send();
+        if (err instanceof ExchangeRateNotFoundError) {
+            return reply.status(409).send();
+        }
+        throw err;
     }
 
 }
