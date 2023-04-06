@@ -1,7 +1,8 @@
-import { convertCurrencyUserCase } from '@/use-cases/convert-currency';
+import { ConvertCurrencyUserCase } from '@/use-cases/convert-currency';
 import { z } from 'zod';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { ExchangeRateNotFoundError } from '@/use-cases/errors/exchange-rate-not-found';
+import { RedisCurrencyRepository } from '@/repositories/redis/redis-currency-repository';
 
 export async function convertCurrency(request: FastifyRequest, reply: FastifyReply) {
 
@@ -11,7 +12,9 @@ export async function convertCurrency(request: FastifyRequest, reply: FastifyRep
 
     try {
         const { price } = currencyBodySchema.parse(request.params);
-        const result = await convertCurrencyUserCase(Number.parseFloat(price));
+        const convertRepository = new RedisCurrencyRepository();
+        const convertCurrencyUserCase = new ConvertCurrencyUserCase(convertRepository);
+        const result = await convertCurrencyUserCase.execute(Number.parseFloat(price));
 
         return reply.status(200).send(result);
     } catch (err) {
@@ -20,5 +23,4 @@ export async function convertCurrency(request: FastifyRequest, reply: FastifyRep
         }
         throw err;
     }
-
 }
