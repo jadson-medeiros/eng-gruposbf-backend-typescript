@@ -1,6 +1,6 @@
 import { convertCurrencyUserCase } from '@/use-cases/convert-currency';
 import { z } from 'zod';
-import {FastifyRequest, FastifyReply} from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 
 export async function convertCurrency(request: FastifyRequest, reply: FastifyReply) {
 
