@@ -4,6 +4,8 @@ import axios, { AxiosRequestConfig} from 'axios';
 import { ExchangeRateNotFoundError } from './errors/exchange-rate-not-found';
 import { CurrencyRepository } from '@/repositories/currency-repository';
 import { ExchangeRate } from './dto/exchange-rate';
+import { IssueWithTheRequestedExchangeRateError } from './errors/issue-with-the-requested-exchange-rate';
+import { IssueWithRequestError } from './errors/issue-with-request';
 
 const headers = {
     'apikey': env.API_KEY, // Adds an Authorization header with an access token
@@ -33,7 +35,7 @@ export class ConvertCurrencyUserCase {
             const response = await axios(config);
 
             if (!response.data.success) {
-                throw new Error('Issue with the requested.');
+                throw new IssueWithRequestError();
             }
 
             const rates = response.data.rates;
@@ -52,7 +54,7 @@ export class ConvertCurrencyUserCase {
 
             return result;
         }  catch (err){
-            throw new Error('Issue with the requested exchange rate.');
+            throw new IssueWithTheRequestedExchangeRateError();
         }
     }
 }

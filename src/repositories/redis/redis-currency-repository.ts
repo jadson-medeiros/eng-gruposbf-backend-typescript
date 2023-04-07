@@ -3,9 +3,9 @@ import { ExchangeRate } from '@/use-cases/dto/exchange-rate';
 import { CurrencyRepository } from '../currency-repository';
 
 export class RedisCurrencyRepository implements CurrencyRepository {
-    async create(amount: number, exchangeRares: ExchangeRate[]) {
+    async create(amount: number, exchangeRates: ExchangeRate[]) {
         const now = new Date();
-        await setRedis(`amount-${amount + now.toLocaleDateString()}`, JSON.stringify(exchangeRares));
+        await setRedis(`amount-${amount + now.toLocaleDateString()}`, JSON.stringify(exchangeRates));
     }
 
     async get(amount: number): Promise<ExchangeRate[] | null> {
