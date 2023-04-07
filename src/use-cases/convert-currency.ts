@@ -22,15 +22,15 @@ export class ConvertCurrencyUserCase {
 
     constructor(private currencyRepository: CurrencyRepository) {}
 
-    async execute(amount: number): Promise<ExchangeRate[]> {
+    async execute(amount: number, base: string): Promise<ExchangeRate[]> {
         try {
-            const checkCacheCurrency = await this.currencyRepository.get(amount);
+            const checkCacheCurrency = await this.currencyRepository.get(amount, base);
 
             if (checkCacheCurrency) {
                 return checkCacheCurrency;
             }
 
-            config.url = config.url + `latest?symbols=${symbols}&base=BRL`;
+            config.url = config.url + `latest?symbols=${symbols}&base=${base}`;
 
             const response = await axios(config);
 
@@ -50,7 +50,7 @@ export class ConvertCurrencyUserCase {
                 result.push({symbol: currency, price: Number((rates[currency] * amount).toFixed(2))});
             }
 
-            await this.currencyRepository.create(amount, result);
+            await this.currencyRepository.create(amount, base, result);
 
             return result;
         }  catch (err){

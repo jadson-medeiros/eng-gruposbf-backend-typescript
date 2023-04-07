@@ -8,13 +8,14 @@ export async function convertCurrency(request: FastifyRequest, reply: FastifyRep
 
     const currencyBodySchema = z.object({
         price: z.string(),
+        base: z.string(),
     });
 
     try {
-        const { price } = currencyBodySchema.parse(request.params);
+        const { price, base } = currencyBodySchema.parse(request.params);
         const convertRepository = new RedisCurrencyRepository();
         const convertCurrencyUserCase = new ConvertCurrencyUserCase(convertRepository);
-        const result = await convertCurrencyUserCase.execute(Number.parseFloat(price));
+        const result = await convertCurrencyUserCase.execute(Number.parseFloat(price), base);
 
         return reply.status(200).send(result);
     } catch (err) {

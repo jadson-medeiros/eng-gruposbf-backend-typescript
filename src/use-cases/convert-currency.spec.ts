@@ -8,7 +8,7 @@ describe('', () =>{
         const currencyRepository = new InMemoryCurrencyRepository();
         const convertUserCase = new ConvertCurrencyUserCase(currencyRepository);
 
-        const result = await convertUserCase.execute(105);
+        const result = await convertUserCase.execute(105, 'BRL');
 
         expect(result.length > 0).toBe(true);
     });
@@ -19,7 +19,7 @@ describe('', () =>{
         const convertUserCase = new ConvertCurrencyUserCase(currencyRepository);
 
         await expect(() =>
-            convertUserCase.execute(0.000002)
+            convertUserCase.execute(0.000002, 'BRL')
         ).rejects.toBeInstanceOf(IssueWithTheRequestedExchangeRateError);
     });
 });

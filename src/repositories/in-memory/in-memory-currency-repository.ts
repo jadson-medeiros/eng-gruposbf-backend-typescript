@@ -9,19 +9,19 @@ interface ExchangeRateInMemory {
 export class InMemoryCurrencyRepository implements CurrencyRepository {
     public items: ExchangeRateInMemory[] = [];
 
-    async create(amount: number, exchangeRates: ExchangeRate[]) {
+    async create(amount: number, base: string, exchangeRates: ExchangeRate[]) {
         const now = new Date();
         const exchangeRate = {
-            key: `amount-${amount + now.toLocaleDateString()}`, value: exchangeRates
+            key: `amount-${amount}-baseNdate-${base + now.toLocaleDateString()}`, value: exchangeRates
         };
 
         this.items.push(exchangeRate);
     }
 
-    async get(amount: number): Promise<ExchangeRate[] | null> {
+    async get(amount: number, base: string): Promise<ExchangeRate[] | null> {
 
         const now = new Date();
-        const rate = this.items.find(rate => rate.key === `amount-${amount + now.toLocaleDateString()}`);
+        const rate = this.items.find(rate => rate.key === `amount-${amount}-baseNdate-${base + now.toLocaleDateString()}`);
 
         if(!rate){
             return null;
