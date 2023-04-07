@@ -18,7 +18,7 @@ describe('', () =>{
         const currencyRepository = new InMemoryCurrencyRepository();
         const convertUserCase = new ConvertCurrencyUserCase(currencyRepository);
 
-        expect(() =>
+        await expect(() =>
             convertUserCase.execute(0.000002)
         ).rejects.toBeInstanceOf(IssueWithTheRequestedExchangeRateError);
     });
