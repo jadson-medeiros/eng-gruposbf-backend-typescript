@@ -9,6 +9,7 @@
     "build": "tsup src --out-dir build",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "vitest run --dir src/http",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
   },
@@ -26,11 +27,13 @@
   "devDependencies": {
     "@types/ioredis": "5.0.0",
     "@types/node": "18.15.11",
+    "@types/supertest": "2.0.12",
     "@typescript-eslint/eslint-plugin": "5.57.0",
     "@typescript-eslint/parser": "5.57.0",
     "@vitest/coverage-c8": "0.29.8",
     "@vitest/ui": "0.29.8",
     "eslint": "8.37.0",
+    "supertest": "6.3.3",
     "tsup": "6.7.0",
     "tsx": "3.12.6",
     "typescript": "5.0.3",
