@@ -1,11 +1,6 @@
-FROM node:current-alpine as build
-WORKDIR /src
-COPY package*.json ./
-RUN npm install
+FROM node:alpine as appbuild
+WORKDIR /usr/src/app
 COPY . .
-
-FROM node:current-alpine as prod
-WORKDIR /src
-COPY --from=build /src ./
-EXPOSE 3333
-CMD node server.js
+RUN npm install
+RUN npm run build
+CMD ["npm", "run", "start"]
