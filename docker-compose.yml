@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    command: npm run start
+    volumes:
+      - .:/usr/app
+    ports:
+      - 3333:3333
+    depends_on:
+      - redis
+    environment:
+      NODE_ENV: dev
+      API_KEY: YOUR_API_KEY
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379:6379
