@@ -46,7 +46,7 @@ export class ConvertCurrencyUserCase {
 
             const result: ExchangeRate[] = [];
 
-            for(const currency in rates){
+            for(const currency in rates) {
                 result.push({symbol: currency, price: Number((rates[currency] * amount).toFixed(2))});
             }
 

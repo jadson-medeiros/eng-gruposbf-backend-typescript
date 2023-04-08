@@ -1,1 +1,1 @@
-export const symbols: string[] = ['USD', 'EUR', 'INR' ,'GBP', 'JPY', 'CAD', 'AUD'];
+export const symbols: string[] = ['BRL', 'USD', 'EUR', 'INR' ,'GBP', 'JPY', 'CAD', 'AUD'];
