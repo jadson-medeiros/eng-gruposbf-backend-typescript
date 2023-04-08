@@ -1,8 +1,7 @@
-import { ConvertCurrencyUserCase } from '@/use-cases/convert-currency';
 import { z } from 'zod';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { ExchangeRateNotFoundError } from '@/use-cases/errors/exchange-rate-not-found';
-import { RedisCurrencyRepository } from '@/repositories/redis/redis-currency-repository';
+import { makeConvertCurrencyUseCase } from '@/use-cases/factories/make-convert-currency-use-case';
 
 export async function convertCurrency(request: FastifyRequest, reply: FastifyReply) {
 
@@ -13,8 +12,9 @@ export async function convertCurrency(request: FastifyRequest, reply: FastifyRep
 
     try {
         const { price, base } = currencyBodySchema.parse(request.params);
-        const convertRepository = new RedisCurrencyRepository();
-        const convertCurrencyUserCase = new ConvertCurrencyUserCase(convertRepository);
+
+        const convertCurrencyUserCase = makeConvertCurrencyUseCase();
+
         const result = await convertCurrencyUserCase.execute(Number.parseFloat(price), base);
 
         return reply.status(200).send(result);
