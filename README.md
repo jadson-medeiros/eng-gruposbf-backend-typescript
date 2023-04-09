@@ -20,7 +20,7 @@ After that to run the server you will find two ways:
 The application makes a request to the External API [APILayer](https://apilayer.com/marketplace/exchangerates_data-api) and saves the price information of each currency in cache using redis.
 
 ## How to get the values:
-* `/v1/converter/{symbol}/{price}`:
+* `/api/converter/{symbol}/{price}`:
   Where `symbol` is like `USD` and `price` is the value of the product.
 
 ## Tests
